@@ -1,0 +1,26 @@
+version: '3'
+services:
+    proxy-reverse:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        container_name: "absam_reverse_proxy"
+        networks:
+            absam-proxy:
+                ipv4_address: 173.20.0.3
+    web1:
+        image: httpd:2.4
+        ports:
+            - "8080:80"
+        container_name: "absam_web1"
+        #        volumes:
+        #            - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+        networks:
+            absam-proxy:
+                ipv4_address: 173.20.0.2
+
+networks:
+    absam-proxy:
+        ipam:
+            config:
+                - subnet: 173.20.0.0/16
